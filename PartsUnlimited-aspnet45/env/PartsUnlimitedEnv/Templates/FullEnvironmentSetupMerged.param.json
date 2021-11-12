@@ -6,7 +6,7 @@
       "value": null
     },
     "PUL_ServerName": {
-      "value": null
+      "value": "PULServer-sql-svr"
     },
     "PUL_DBLogin": {
       "value": "AdminUser"
