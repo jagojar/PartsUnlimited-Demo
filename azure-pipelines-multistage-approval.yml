@@ -97,14 +97,14 @@ stages:
 
           - task: AzureRmWebAppDeployment@4
             inputs:
-                ConnectionType: 'AzureRM'
-                azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
-                appType: 'webApp'
-                WebAppName: $(WebsiteName)
-                deployToSlotOrASE: true
-                ResourceGroupName: 'PartsUnlimitedRG'
-                SlotName: 'Dev'
-                packageForLinux: $(Pipeline.Workspace)/**/*.zip
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+              appType: 'webApp'
+              WebAppName: $(WebsiteName)
+              deployToSlotOrASE: true
+              ResourceGroupName: 'PartsUnlimitedRG'
+              SlotName: 'Dev'
+              packageForLinux: $(Pipeline.Workspace)/**/*.zip
   
   - deployment: DeployToStaging
     displayName: Deploy To Staging Environment
@@ -113,21 +113,22 @@ stages:
     pool:
       vmImage: windows-latest
     
-      environment: 'PUL-Staging'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - task: AzureRmWebAppDeployment@4
-              inputs:
-                  ConnectionType: 'AzureRM'
-                  azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
-                  appType: 'webApp'
-                  WebAppName: $(WebsiteName)
-                  deployToSlotOrASE: true
-                  ResourceGroupName: 'PartsUnlimitedRG'
-                  SlotName: 'Staging'
-                  packageForLinux: $(Pipeline.Workspace)/**/*.zip
+    environment: 'PUL-Staging'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+              appType: 'webApp'
+              WebAppName: $(WebsiteName)
+              deployToSlotOrASE: true
+              ResourceGroupName: 'PartsUnlimitedRG'
+              SlotName: 'Staging'
+              packageForLinux: $(Pipeline.Workspace)/**/*.zip            
     
 - stage: DeployToProd
   displayName: Deploy to Production
