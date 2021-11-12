@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "WebsiteName": {
-      "value": null
+      "value": "PUL-web"
     },
     "PUL_ServerName": {
       "value": "PULServer-sql-svr"
