@@ -113,7 +113,7 @@ stages:
     pool:
       vmImage: windows-latest
     
-      environment: 'PUL-Dev'
+      environment: 'PUL-Staging'
       strategy:
         runOnce:
           deploy:
