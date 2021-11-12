@@ -83,7 +83,7 @@ stages:
 - stage: DeployToDevAndStaging
   displayName: Deploy to Dev and Staging Environments
   jobs:
-  - job: DeployToDevA
+  - job: DeployToDev
   - deployment: DeployToDev
     displayName: Deploy To Dev Environment
     
