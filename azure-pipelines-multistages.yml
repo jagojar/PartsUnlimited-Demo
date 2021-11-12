@@ -76,9 +76,7 @@ stages:
         templateLocation: 'Linked artifact'
         csmFile: '$(System.ArtifactsDirectory)/**/FullEnvironmentSetupMerged.json'
         csmParametersFile: '$(System.ArtifactsDirectory)/**/FullEnvironmentSetupMerged.param.json'
-        overrideParameters: |
-          -WebsiteName $(WebsiteName) -PUL_ServerName $(ServerName) -PUL_DBPassword $(AdminPassword) 
-          -PUL_DBPasswordForTest $(AdminTestPassword) -PUL_HostingPlanName $(HostingPlan)
+        overrideParameters: '-WebsiteName $(WebsiteName) -PUL_ServerName $(ServerName) -PUL_DBPassword $(AdminPassword) -PUL_DBPasswordForTest $(AdminTestPassword) -PUL_HostingPlanName $(HostingPlan)'
         deploymentMode: 'Incremental'
         
     - task: AzureRmWebAppDeployment@4
