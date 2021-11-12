@@ -37,8 +37,15 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(build.sourcesdirectory)/PartsUnlimited-aspnet45/env/'
+    Contents: '**/*.json'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)'
     artifact: 'drop'
     publishLocation: 'pipeline'
+
