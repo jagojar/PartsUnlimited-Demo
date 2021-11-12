@@ -132,8 +132,7 @@ stages:
     
 - stage: DeployToProd
   displayName: Deploy to Production
-  jobs:
-  - job: DeployToProd
+  jobs:  
   - deployment: DeployToProd
     displayName: Deploy To Prod Environment
 
