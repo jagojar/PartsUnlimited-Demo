@@ -58,7 +58,8 @@ stages:
   jobs:
   - job: DeployARMTemplate
     pool:
-     name: Hosted VS2017
+     vmImage: windows-latest
+
     steps:
     - task: DownloadPipelineArtifact@2
       inputs:
@@ -79,12 +80,64 @@ stages:
         overrideParameters: '-WebsiteName $(WebsiteName) -PUL_ServerName $(ServerName) -PUL_DBPassword $(AdminPassword) -PUL_DBPasswordForTest $(AdminTestPassword) -PUL_HostingPlanName $(HostingPlan)'
         deploymentMode: 'Incremental'
         
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
-        appType: 'webApp'
-        WebAppName: $(WebsiteName)
-        packageForLinux: $(System.ArtifactsDirectory)/**/*.zip  
-
+- stage: DeployToDevAndStaging
+  displayName: Deploy to Dev and Staging Environments
+  jobs:
+  - deployment: DeployToDev
+    displayName: Deploy To Dev Environment
     
+    pool:
+     vmImage: windows-latest
+   
+    environment: 'PUL-Dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+                ConnectionType: 'AzureRM'
+                azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+                appType: 'webApp'
+                WebAppName: $(WebsiteName)
+                deployToSlotOrASE: true
+                ResourceGroupName: 'PartsUnlimitedRG'
+                SlotName: 'Dev'
+                packageForLinux: $(Pipeline.Workspace)/**/*.zip
+  
+  - deployment: DeployToStaging
+    displayName: Deploy To Staging Environment
+    dependsOn: DeployToDev
+
+    pool:
+      vmImage: windows-latest
+    
+      environment: 'PUL-Dev'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+
+            - task: AzureRmWebAppDeployment@4
+              inputs:
+                  ConnectionType: 'AzureRM'
+                  azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+                  appType: 'webApp'
+                  WebAppName: $(WebsiteName)
+                  deployToSlotOrASE: true
+                  ResourceGroupName: 'PartsUnlimitedRG'
+                  SlotName: 'Staging'
+                  packageForLinux: $(Pipeline.Workspace)/**/*.zip
+    
+- stage: DeployToProd
+  displayName: Deploy to Production
+  jobs:
+  - deployment: DeployToProd
+    displayName: Deploy To Prod Environment
+
+    pool:
+     vmImage: windows-latest
+     
+
+
