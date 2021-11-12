@@ -118,7 +118,6 @@ stages:
         runOnce:
           deploy:
             steps:
-
             - task: AzureRmWebAppDeployment@4
               inputs:
                   ConnectionType: 'AzureRM'
@@ -139,5 +138,17 @@ stages:
     pool:
      vmImage: windows-latest
      
+    environment: 'PUL-Production'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+              appType: 'webApp'
+              WebAppName: $(WebsiteName)              
+              packageForLinux: $(Pipeline.Workspace)/**/*.zip
 
 
