@@ -65,3 +65,21 @@ stages:
         buildType: 'current'
         artifactName: 'drop'
         targetPath: '$(System.ArtifactsDirectory)'
+    - task: AzureResourceManagerTemplateDeployment@3
+      inputs:
+        deploymentScope: 'Resource Group'
+        azureResourceManagerConnection: 'Consumo interno de Microsoft Azure(2)(abe57ed2-2f64-41d1-87dc-88c6ec7582a0)'
+        subscriptionId: 'abe57ed2-2f64-41d1-87dc-88c6ec7582a0'
+        action: 'Create Or Update Resource Group'
+        resourceGroupName: 'PartsUnlimitedRG'
+        location: 'East US'
+        templateLocation: 'Linked artifact'
+        csmFile: '$(System.ArtifactsDirectory)/**/FullEnvironmentSetupMerged.json'
+        csmParametersFile: '$(System.ArtifactsDirectory)/**/FullEnvironmentSetupMerged.param.json'
+        overrideParameters: |
+          -WebsiteName $(WebsiteName) -PUL_ServerName
+          $(ServerName) -PUL_DBPassword $(AdminPassword) -PUL_DBPasswordForTest
+          $(AdminTestPassword) -PUL_HostingPlanName $(HostingPlan)
+        deploymentMode: 'Incremental'
+
+    
