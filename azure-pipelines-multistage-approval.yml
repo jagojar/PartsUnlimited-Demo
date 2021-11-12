@@ -54,9 +54,9 @@ stages:
         artifact: 'drop'
         publishLocation: 'pipeline'
 
-- stage: Deploy
+- stage: DeployAzureResources
   jobs:
-  - job: Deploy
+  - job: DeployARMTemplate
     pool:
      name: Hosted VS2017
     steps:
