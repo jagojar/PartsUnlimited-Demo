@@ -83,6 +83,7 @@ stages:
 - stage: DeployToDevAndStaging
   displayName: Deploy to Dev and Staging Environments
   jobs:
+  - job: DeployToDevA
   - deployment: DeployToDev
     displayName: Deploy To Dev Environment
     
@@ -132,6 +133,7 @@ stages:
 - stage: DeployToProd
   displayName: Deploy to Production
   jobs:
+  - job: DeployToProd
   - deployment: DeployToProd
     displayName: Deploy To Prod Environment
 
